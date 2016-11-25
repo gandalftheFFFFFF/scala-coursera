@@ -24,11 +24,28 @@ object Main {
    * Exercise 2
    */
     def balance(chars: List[Char]): Boolean = {
-      def help(xs: List[Char], stack: Stack[Int]): Int = {}
+      def help(xs: List[Char], level: Int): Boolean = {
+        if (xs.isEmpty) level == 0
+        else if (xs.head == ')' && level == 0) false
+        else if (xs.head == '(') help(xs.tail, level + 1)
+        else if (xs.head == ')' && level > 0) help(xs.tail, level - 1)
+        else help(xs.tail, level)
+      }
+      help(chars, 0)
     }
   
   /**
    * Exercise 3
    */
-    def countChange(money: Int, coins: List[Int]): Int = ???
+    def countChange(money: Int, coins: List[Int]): Int = {
+      def help(money: Int, coins: List[Int], sum: Int): Int = {
+        if (money < 0) sum
+        else
+          if (coins.isEmpty)
+            if (money == 0) sum + 1 else sum
+          else
+            help(money - coins.head, coins, sum) + help(money, coins.tail, sum)
+      }
+      help(money, coins, 0)
+    }
   }
